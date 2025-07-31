@@ -102,7 +102,6 @@ module.exports = () => {
             }),
         ],
         devServer: {
-            server: 'https',
             devMiddleware: {
                 publicPath: '/dist/',
             },
