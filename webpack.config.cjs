@@ -104,6 +104,7 @@ module.exports = () => {
         devServer: {
             historyApiFallback: true,
             allowedHosts: "all",
+            port: process.env.PORT || 3000,
             devMiddleware: {
                 publicPath: '/dist/',
             },
