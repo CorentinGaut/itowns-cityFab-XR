@@ -102,7 +102,8 @@ module.exports = () => {
             }),
         ],
         devServer: {
-            disableHostCheck: true,
+            historyApiFallback: true,
+            allowedHosts: "all",
             devMiddleware: {
                 publicPath: '/dist/',
             },
