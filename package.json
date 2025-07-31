@@ -23,7 +23,7 @@
     "build": "npm run transpile && cross-env NODE_ENV=production webpack",
     "build-dev": "cross-env NODE_ENV=development webpack",
     "transpile": "npm run transpile --workspaces",
-    "start": "cross-env NODE_ENV=development webpack serve",
+    "start": "cross-env NODE_ENV=production webpack serve",
     "start-https": "cross-env NODE_ENV=development webpack serve --https",
     "debug": "cross-env noInline=true npm start",
     "prepublishOnly": "npm run build && npm run transpile",
