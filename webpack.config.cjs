@@ -102,6 +102,7 @@ module.exports = () => {
             }),
         ],
         devServer: {
+            disableHostCheck: true,
             devMiddleware: {
                 publicPath: '/dist/',
             },
