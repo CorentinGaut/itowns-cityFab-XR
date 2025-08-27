@@ -221,7 +221,7 @@ jobs:
   deploy:
     name: Deploy to itowns.github.io
     if: ${{ github.ref == 'refs/heads/master' }}
-    needs: [finish-coverage, functional-tests]
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
 
@@ -256,10 +256,10 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          external_repository: iTowns/itowns.github.io
+          # external_repository: iTowns/itowns.github.io
           publish_dir: ./itowns
           destination_dir: ./itowns
-          publish_branch: master
+          # publish_branch: master
           enable_jekyll: true
 
       # Deploy to itowns.github.io Dev
@@ -271,68 +271,68 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          external_repository: iTowns/itowns.github.io
+          # external_repository: iTowns/itowns.github.io
           publish_dir: ./itowns
           destination_dir: ./itowns/dev
-          publish_branch: master
+          # publish_branch: master
           enable_jekyll: true
 
 
   # Create GitHub release
-  release:
-    name: Release GitHub
-    if: ${{ github.ref == 'refs/heads/master' && startsWith( github.event.head_commit.message, 'release v' ) }}
-    needs: [finish-coverage, functional-tests]
-    runs-on: ubuntu-latest
-    steps:
+  # release:
+  #   name: Release GitHub
+  #   if: ${{ github.ref == 'refs/heads/master' && startsWith( github.event.head_commit.message, 'release v' ) }}
+  #   needs: [finish-coverage, functional-tests]
+  #   runs-on: ubuntu-latest
+  #   steps:
 
-      - uses: actions/checkout@v4
+  #     - uses: actions/checkout@v4
 
-      - name: Use Node.js 22.x
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22.x
+  #     - name: Use Node.js 22.x
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 22.x
 
-      - name: Message commit
-        run: echo "is RELEASE => ${{ github.event.head_commit.message }} !!"
+  #     - name: Message commit
+  #       run: echo "is RELEASE => ${{ github.event.head_commit.message }} !!"
 
-      - name: Get release version
-        run: echo "VERSION=$(node -e "console.log(require('./package.json').version);")" >> $GITHUB_OUTPUT
-        id: npm_pack
+  #     - name: Get release version
+  #       run: echo "VERSION=$(node -e "console.log(require('./package.json').version);")" >> $GITHUB_OUTPUT
+  #       id: npm_pack
 
-      - name: itowns Version
-        run: echo "The iTowns release version is ${{ steps.npm_pack.outputs.VERSION }}"
+  #     - name: itowns Version
+  #       run: echo "The iTowns release version is ${{ steps.npm_pack.outputs.VERSION }}"
 
-      # Add tag
-      - name: Tag branch
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git tag -a v${{ steps.npm_pack.outputs.VERSION }} -m "release v${{ steps.npm_pack.outputs.VERSION }}."
-          git push --follow-tags
+  #     # Add tag
+  #     - name: Tag branch
+  #       run: |
+  #         git config user.name github-actions
+  #         git config user.email github-actions@github.com
+  #         git tag -a v${{ steps.npm_pack.outputs.VERSION }} -m "release v${{ steps.npm_pack.outputs.VERSION }}."
+  #         git push --follow-tags
 
-      # Download artifact from build
-      - name: Download itowns bundle
-        uses: actions/download-artifact@v4
-        with:
-          name: dist-itowns
+  #     # Download artifact from build
+  #     - name: Download itowns bundle
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: dist-itowns
 
-      # Create release
-      - name: Create release
-        run: |
-          gh release create v${{ steps.npm_pack.outputs.VERSION }} \
-            --title "Release ${{ steps.npm_pack.outputs.VERSION }}" \
-            --notes-file ./changelog.md \
-            --draft=false \
-            --prerelease=false
+  #     # Create release
+  #     - name: Create release
+  #       run: |
+  #         gh release create v${{ steps.npm_pack.outputs.VERSION }} \
+  #           --title "Release ${{ steps.npm_pack.outputs.VERSION }}" \
+  #           --notes-file ./changelog.md \
+  #           --draft=false \
+  #           --prerelease=false
 
-      # Zip assets into bundle
-      - name: Zip assets
-        run: |
-          zip --junk-paths bundles ./dist/*.js ./dist/*.map
+  #     # Zip assets into bundle
+  #     - name: Zip assets
+  #       run: |
+  #         zip --junk-paths bundles ./dist/*.js ./dist/*.map
 
-      # Upload release asset
-      - name: Upload release asset
-        run: |
-          gh release upload v${{ steps.npm_pack.outputs.VERSION }} bundles.zip
+  #     # Upload release asset
+  #     - name: Upload release asset
+  #       run: |
+  #         gh release upload v${{ steps.npm_pack.outputs.VERSION }} bundles.zip
 
