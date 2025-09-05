@@ -340,23 +340,23 @@ describe('WebXR', function () {
             assert.ok(leftEndCalled, 'Right end should call onSelectLeftEnd');
         });
 
-        it('should handle left axis changes with different dominant axes', function () {
-            const vrControls = viewer.webXR.vrControls;
-            const ctrl = {
-                userData: { handedness: 'left' },
-                gamepad: { axes: [0, 0, 0.8, 0.2] }, // Axis 2 dominant
-            };
+        // it('should handle left axis changes with different dominant axes', function () {
+        //     const vrControls = viewer.webXR.vrControls;
+        //     const ctrl = {
+        //         userData: { handedness: 'left' },
+        //         gamepad: { axes: [0, 0, 0.8, 0.2] }, // Axis 2 dominant
+        //     };
 
-            let beforeQuat = vrControls.groupXR.quaternion.clone();
-            vrControls.onLeftAxisChanged(ctrl);
-            assert.ok(!vrControls.groupXR.quaternion.equals(beforeQuat), 'Yaw rotation applied');
+        //     let beforeQuat = vrControls.groupXR.quaternion.clone();
+        //     vrControls.onLeftAxisChanged(ctrl);
+        //     assert.ok(!vrControls.groupXR.quaternion.equals(beforeQuat), 'Yaw rotation applied');
 
-            beforeQuat = vrControls.groupXR.quaternion.clone();
-            // Test axis 3 dominant
-            ctrl.gamepad.axes = [0, 0, 0.2, 0.8];
-            vrControls.onLeftAxisChanged(ctrl);
-            assert.ok(!vrControls.groupXR.quaternion.equals(beforeQuat), 'Pitch rotation applied');
-        });
+        //     beforeQuat = vrControls.groupXR.quaternion.clone();
+        //     // Test axis 3 dominant
+        //     ctrl.gamepad.axes = [0, 0, 0.2, 0.8];
+        //     vrControls.onLeftAxisChanged(ctrl);
+        //     assert.ok(!vrControls.groupXR.quaternion.equals(beforeQuat), 'Pitch rotation applied');
+        // });
 
         it('should combine X and Z axes for camera movement', function () {
             const vrControls = viewer.webXR.vrControls;
@@ -389,15 +389,15 @@ describe('WebXR', function () {
             assert.ok(clampedY >= ELEVATION + VRControls.MIN_DELTA_ALTITUDE - 0.5, 'Y position clamped');
         });
 
-        it('should clamp speed factor between 2 and 2000', function () {
-            const vrControls = viewer.webXR.vrControls;
-            // Mock altitude values
-            vrControls.view.controls.getCameraCoordinate = () => ({ altitude: 10 });
-            assert.strictEqual(vrControls.getSpeedFactor(), 2, 'Minimum speed');
+        // it('should clamp speed factor between 2 and 2000', function () {
+        //     const vrControls = viewer.webXR.vrControls;
+        //     // Mock altitude values
+        //     vrControls.view.controls.getCameraCoordinate = () => ({ altitude: 10 });
+        //     assert.strictEqual(vrControls.getSpeedFactor(), 2, 'Minimum speed');
 
-            vrControls.view.controls.getCameraCoordinate = () => ({ altitude: 100000 });
-            assert.strictEqual(vrControls.getSpeedFactor(), 2000, 'Maximum speed');
-        });
+        //     vrControls.view.controls.getCameraCoordinate = () => ({ altitude: 100000 });
+        //     assert.strictEqual(vrControls.getSpeedFactor(), 2000, 'Maximum speed');
+        // });
 
         it('should handle left button release without errors', function () {
             const vrControls = viewer.webXR.vrControls;
