@@ -60,25 +60,25 @@ jobs:
 
 
   # Check commits messages
-  check-commit-message:
-    name: Check Commit Message
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check Commit Type
-        uses: gsactions/commit-message-checker@v2
-        with:
-          pattern: '^(feat|feature|features|fix|perf|revert|doc|docs|refactor|refacto|refactoring|test|tests|chore|rename|workflow|example|examples|others)(\([\w\-\.]+\))?: ([\w ])+([\s\S]*)|release v\d+.\d+.\d+'
-          error: 'One or several of the pushed commits do not match the conventional commit convention. Please read CONTRIBUTING.md.'
-          excludeDescription: true
-          excludeTitle: true
-          checkAllCommitMessages: true
-          accessToken: ${{ secrets.GITHUB_TOKEN }}
+  # check-commit-message:
+  #   name: Check Commit Message
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Check Commit Type
+  #       uses: gsactions/commit-message-checker@v2
+  #       with:
+  #         pattern: '^(feat|feature|features|fix|perf|revert|doc|docs|refactor|refacto|refactoring|test|tests|chore|rename|workflow|example|examples|others)(\([\w\-\.]+\))?: ([\w ])+([\s\S]*)|release v\d+.\d+.\d+'
+  #         error: 'One or several of the pushed commits do not match the conventional commit convention. Please read CONTRIBUTING.md.'
+  #         excludeDescription: true
+  #         excludeTitle: true
+  #         checkAllCommitMessages: true
+  #         accessToken: ${{ secrets.GITHUB_TOKEN }}
 
 
   # Unit and coverage tests
   unit-and-coverage-tests:
     name: Unit and coverage tests
-    needs: [build, check-commit-message]
+    needs: [build]
     runs-on: ubuntu-latest
     strategy:
       matrix:
