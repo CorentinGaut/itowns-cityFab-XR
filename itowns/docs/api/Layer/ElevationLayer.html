@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>ElevationLayer - iTowns documentation</title>
+
+    <script src="../../scripts/prettify/prettify.js"> </script>
+    <script src="../../scripts/prettify/lang-css.js"> </script>
+    <link type="text/css" rel="stylesheet" href="../../styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="../../styles/jsdoc-default.css">
+    <link type="text/css" rel="stylesheet" href="../../styles/itowns.css">
+</head>
+
+<body>
+
+
+
+<section>
+
+<article>
+
+    <h1>
+        ElevationLayer
+        
+            <span class="extends">extends RasterLayer</span>
+        
+    </h1>
+
+    
+        <div class="description"><p>A simple layer, managing an elevation texture to add some reliefs on the
+plane or globe view for example.</p></div>
+    
+
+    
+        <hr class="title-divider"/>
+        <h2>Constructor</h2>
+        
+
+<div class="method">
+    <h3>
+        <span class="method-name">ElevationLayer</span>
+        (
+
+
+    
+    
+        id:
+            <span class="type">string</span>, 
+    
+        config:
+            <span class="type">Object</span>
+    
+
+)
+        
+    </h3>
+
+    
+
+    
+
+    
+        <h4>Parameters</h4>
+        
+
+<ul class="params">
+    
+    <li>
+        <code>id</code>
+        
+        
+            &mdash; <span><p>The id of the layer, that should be unique. It is
+not mandatory, but an error will be emitted if this layer is added a
+<a onclick="window.parent.goTo('api/View/View.html','api/View/View')" title="View">View</a> that already has a layer going by that id.</p></span>
+        
+
+        
+    </li>
+    
+    <li>
+        <code>config</code>
+        (optional)
+        
+            &mdash; <span><p>Optional configuration, all elements in it
+will be merged as is in the layer. For example, if the configuration
+contains three elements <code>name, protocol, extent</code>, these elements will be
+available using <code>layer.name</code> or something else depending on the property
+name.</p></span>
+        
+
+        
+            
+
+<ul class="params">
+    
+    <li>
+        <code>config.noDataValue</code>
+        (optional)
+        
+            &mdash; <span><p>The value coding the noData in the data set</p></span>
+        
+
+        
+    </li>
+    
+    <li>
+        <code>config.clampValues</code>
+        (optional)
+        
+            &mdash; <span><p>Optional information for clamping
+the elevation between a minimum and a maximum value</p></span>
+        
+
+        
+            
+
+<ul class="params">
+    
+    <li>
+        <code>config.clampValues.min</code>
+        (optional)
+        
+            &mdash; <span><p>The minimum value to clamp the elevation</p></span>
+        
+
+        
+    </li>
+    
+    <li>
+        <code>config.clampValues.max</code>
+        (optional)
+        
+            &mdash; <span><p>The maximum value to clamp the elevation</p></span>
+        
+
+        
+    </li>
+    
+</ul>
+
+        
+    </li>
+    
+</ul>
+
+        
+    </li>
+    
+</ul>
+
+    
+
+    
+</div>
+
+    
+
+    
+        <hr class="title-divider"/>
+        <h2>Example</h2>
+        
+
+
+    
+
+    <pre class="prettyprint source lang-js"><code>// Create an ElevationLayer
+const elevation = new ElevationLayer('IGN_MNT', {
+     source: new WMTSSource({
+         "url": "https://data.geopf.fr/wmts?",
+          "crs": "EPSG:4326",
+          "format": "image/x-bil;bits=32",
+          "name": "ELEVATION.ELEVATIONGRIDCOVERAGE",
+     }),
+});
+
+// Add the layer
+view.addLayer(elevation);</code></pre>
+
+
+    
+
+    
+        <hr class="title-divider"/>
+        <h2>Properties</h2>
+        
+            
+
+<div class="property">
+    <h3>
+        <span class="property-name">isElevationLayer</span>
+        : <span class="type">boolean</span>
+    </h3>
+
+    
+        <div class="description">
+            <p>Used to checkout whether this layer is
+an ElevationLayer. Default is true. You should not change this, as it is used
+internally for optimisation.</p>
+        </div>
+    
+</div>
+
+            <hr/>
+        
+            
+
+<div class="property">
+    <h3>
+        <span class="property-name">noDataValue</span>
+        : <span class="type">number</span>
+    </h3>
+
+    
+        <div class="description">
+            <p>Used to specify a <strong>null</strong> or <strong>no data value</strong> in the elevation terrain.</p>
+        </div>
+    
+</div>
+
+            <hr/>
+        
+            
+
+<div class="property">
+    <h3>
+        <span class="property-name">zmin</span>
+        : <span class="type">number</span>
+    </h3>
+
+    
+        <div class="description">
+            <p>Used to specify a minimum value for the elevation terrain (if the data goes lower, it will be clamped).</p>
+        </div>
+    
+</div>
+
+            <hr/>
+        
+            
+
+<div class="property">
+    <h3>
+        <span class="property-name">zmax</span>
+        : <span class="type">number</span>
+    </h3>
+
+    
+        <div class="description">
+            <p>Used to specify a maximum value for the elevation terrain (if the data goes higher, it will be clamped)</p>
+        </div>
+    
+</div>
+
+            <hr/>
+        
+            
+
+<div class="property">
+    <h3>
+        <span class="property-name">scale</span>
+        : <span class="type">number</span>
+    </h3>
+
+    
+        <div class="description">
+            <p>Used to apply a scale on the elevation value. It
+can be used for exageration of the elevation, like in <a href="https://www.itowns-project.org/itowns/examples/#plugins_pyramidal_tiff">this
+example</a>.</p>
+        </div>
+    
+</div>
+
+            <hr/>
+        
+            
+
+<div class="property">
+    <h3>
+        <span class="property-name">useColorTextureElevation</span>
+        : <span class="type">boolean</span>
+    </h3>
+
+    
+        <div class="description">
+            <p>the elevation is computed with one color texture channel,
+<code>this.colorTextureElevationMaxZ</code> and <code>this.colorTextureElevationMinZ</code>.</p>
+<p>The formula is:</p>
+<pre class="prettyprint source lang-js"><code>elevation = color.r * (this.colorTextureElevationMaxZ - this.colorTextureElevationMinZ) + this.colorTextureElevationMinZ
+</code></pre>
+        </div>
+    
+</div>
+
+            <hr/>
+        
+            
+
+<div class="property">
+    <h3>
+        <span class="property-name">colorTextureElevationMinZ</span>
+        : <span class="type">number</span>
+    </h3>
+
+    
+        <div class="description">
+            <p>elevation minimum in <code>useColorTextureElevation</code> mode.</p>
+        </div>
+    
+</div>
+
+            <hr/>
+        
+            
+
+<div class="property">
+    <h3>
+        <span class="property-name">colorTextureElevationMaxZ</span>
+        : <span class="type">number</span>
+    </h3>
+
+    
+        <div class="description">
+            <p>elevation maximum in <code>useColorTextureElevation</code> mode.</p>
+        </div>
+    
+</div>
+
+            
+        
+    
+
+    
+        <hr class="title-divider"/>
+        <h2>Methods</h2>
+        
+            
+
+<div class="method">
+    <h3>
+        <span class="method-name">delete</span>
+        (
+
+
+    
+    
+        clearCache:
+            <span class="type">boolean</span>
+    
+
+)
+        
+    </h3>
+
+    
+        
+            <div class="description">
+                <p>All layer's textures are removed from scene and disposed from video device.</p>
+            </div>
+        
+    
+
+    
+
+    
+        <h4>Parameters</h4>
+        
+
+<ul class="params">
+    
+    <li>
+        <code>clearCache</code>
+        (optional)
+        
+            &mdash; <span><p>Whether to clear the layer cache or not</p></span>
+        
+
+        
+    </li>
+    
+</ul>
+
+    
+
+    
+        
+    
+</div>
+
+            <hr/>
+        
+            
+
+<div class="method">
+    <h3>
+        <span class="method-name">setupRasterNode</span>
+        (
+
+
+    
+    
+        node:
+            <span class="type"><a onclick="window.parent.goTo('api/Base/TileMesh.html','api/Base/TileMesh')" title="TileMesh">TileMesh</a></span>
+    
+
+)
+        :
+            
+                <span class="type">RasterElevationTile</span>
+
+            
+        
+    </h3>
+
+    
+        
+            <div class="description">
+                <p>Setup RasterElevationTile added to TileMesh. This RasterElevationTile handles
+the elevation texture to displace TileMesh vertices.</p>
+            </div>
+        
+    
+
+    
+                <h4>Returns</h4>
+                
+                    <p>The raster elevation node added.</p>
+                
+
+    
+        <h4>Parameters</h4>
+        
+
+<ul class="params">
+    
+    <li>
+        <code>node</code>
+        
+        
+            &mdash; <span><p>The node to apply new RasterElevationTile;</p></span>
+        
+
+        
+    </li>
+    
+</ul>
+
+    
+
+    
+        
+    
+</div>
+
+            
+        
+    
+
+    
+
+    
+
+    
+
+
+
+        <hr class="title-divider"/>
+        <h2>Source</h2>
+        <a target="_blank" href="https://github.com/itowns/itowns/blob/master/packages/Main/src/Layer/ElevationLayer.js">
+            packages/Main/src/Layer/ElevationLayer.js
+        </a>
+
+
+
+
+</article>
+
+</section>
+
+<script> prettyPrint(); </script>
+<script src="../../scripts/linenumber.js"> </script>
+</body>
+</html>
